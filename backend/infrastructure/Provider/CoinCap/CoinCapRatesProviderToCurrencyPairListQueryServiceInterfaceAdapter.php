@@ -21,7 +21,7 @@ final class CoinCapRatesProviderToCurrencyPairListQueryServiceInterfaceAdapter i
         return array_map(static fn (RateDto $dto) => new CurrencyPair(
             baseCurrencyCode: 'USD',
             secondCurrencyCode: $dto->symbol,
-            rate: $dto->rateUsd,
+            rate: 1 / $dto->rateUsd,
         ), $rates);
     }
 }
