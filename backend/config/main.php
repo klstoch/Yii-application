@@ -10,6 +10,7 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
+    'container' => require __DIR__ . '/container.php',
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
