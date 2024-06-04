@@ -12,7 +12,16 @@ use yii\di\Container;
 
 return [
     'definitions' => [
-        CurrencyPairListQueryServiceInterface::class => CurrencyPairPricingDecorator::class,
+        \Redis::class => function () {
+            $redisConfig = Yii::$app->params['cache']['redis'];
+
+            $redis = new Redis();
+            $redis->connect($redisConfig['host'], $redisConfig['port'], $redisConfig['timeout']);
+
+            return $redis;
+        },
+
+        CurrencyPairListQueryServiceInterface::class => CurrencyPairCachingDecorator::class,
         CurrencyPairPricingDecorator::class => fn (Container $container) => new CurrencyPairPricingDecorator(
             $container->get(CoinCapRatesProviderToCurrencyPairListQueryServiceInterfaceAdapter::class),
             Yii::$app->params['percentOfFee'],

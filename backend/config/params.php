@@ -1,5 +1,13 @@
 <?php
 return [
+    'cache' => [
+        'redis' => [
+            'host' => 'redis',
+            'port' => 6379,
+            'timeout' => 0,
+        ],
+    ],
+
     'adminEmail' => 'admin@example.com',
     'percentOfFee' => 2,
 
