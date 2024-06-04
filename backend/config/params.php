@@ -10,6 +10,7 @@ return [
 
     'adminEmail' => 'admin@example.com',
     'percentOfFee' => 2,
+    'ratesCachingTtl' => 300,
 
     'providers' => [
         'CurRate' => [

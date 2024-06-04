@@ -6,6 +6,7 @@ use backend\infrastructure\Provider\CoinCap\CoinCapRatesProviderToCurrencyPairLi
 use backend\infrastructure\Provider\CurRate\CurRateRatesProvider;
 use backend\infrastructure\Provider\CurRate\CurRateRatesProviderToCurrencyPairListQueryServiceInterfaceAdapter;
 use backend\services\CurrencyConversation\CurrencyConversationService;
+use backend\services\CurrencyPairList\CurrencyPairCachingDecorator;
 use backend\services\CurrencyPairList\CurrencyPairListQueryServiceInterface;
 use backend\services\CurrencyPairList\CurrencyPairPricingDecorator;
 use yii\di\Container;
@@ -25,6 +26,11 @@ return [
         CurrencyPairPricingDecorator::class => fn (Container $container) => new CurrencyPairPricingDecorator(
             $container->get(CoinCapRatesProviderToCurrencyPairListQueryServiceInterfaceAdapter::class),
             Yii::$app->params['percentOfFee'],
+        ),
+        CurrencyPairCachingDecorator::class => fn (Container $container) => new CurrencyPairCachingDecorator(
+            $container->get(CurrencyPairPricingDecorator::class),
+            $container->get(Redis::class),
+            Yii::$app->params['ratesCachingTtl'],
         ),
         CurrencyConversationService::class => fn (Container $container) => new CurrencyConversationService(
             $container->get(CurrencyPairPricingDecorator::class),
