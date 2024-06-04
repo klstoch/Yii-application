@@ -50,7 +50,7 @@ class RatesController extends Controller
             'currency_from' => $currencyFrom,
             'currency_to' => $currencyTo,
             'value' => $value,
-            'converted_value' => $result->convertedAmount,
+            'converted_value' => $result->converted->amount,
             'rate' => $result->rate,
         ]);
     }
