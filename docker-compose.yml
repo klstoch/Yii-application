@@ -30,9 +30,19 @@ services:
       - MYSQL_USER=yii2advanced
       - MYSQL_PASSWORD=secret
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6377:6379"
+    volumes:
+      - redis_data:/data
+
   #pgsql:
   #  image: postgres:9.5
   #  environment:
   #    - POSTGRES_DB=yii2advanced
   #    - POSTGRES_USER=yii2advanced
   #    - POSTGRES_PASSWORD=secret
+
+volumes:
+  redis_data:
