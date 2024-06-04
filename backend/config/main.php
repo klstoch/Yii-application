@@ -1,4 +1,8 @@
 <?php
+
+use backend\infrastructure\ErrorHandler;
+use yii\web\Response;
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -16,6 +20,20 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+        ],
+        'response' => [
+            'class' => Response::class,
+            'on beforeSend' => function ($event) {
+                $response = $event->sender;
+                if ($response->isSuccessful) {
+                    $response->statusCode = 200;
+                    $response->data = [
+                        'status' => 'success',
+                        'code' => $response->statusCode,
+                        'data' => $response->data ?: [],
+                    ];
+                }
+            },
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -36,7 +54,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'class' => ErrorHandler::class,
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
