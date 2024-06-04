@@ -61,7 +61,7 @@ class RatesController extends Controller
 
         $result = [];
         foreach ($pairList as $currencyPair) {
-            $result[$currencyPair->secondCurrencyCode] = $currencyPair->rate;
+            $result[$currencyPair->secondCurrency->symbol] = $currencyPair->rate;
         }
         ksort($result);
 

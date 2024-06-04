@@ -19,8 +19,8 @@ final readonly class CurrencyPairPricingDecorator implements CurrencyPairListQue
         $currencyPairs = $this->decorated->getPairList();
 
         return array_map(fn (CurrencyPair $pair) => new CurrencyPair(
-            $pair->baseCurrencyCode,
-            $pair->secondCurrencyCode,
+            $pair->baseCurrency,
+            $pair->secondCurrency,
             $pair->rate * ((100 + $this->percentOfFee) / 100),
         ), $currencyPairs);
     }

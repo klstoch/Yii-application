@@ -17,11 +17,13 @@ final readonly class CurrencyConversationService
     {
         $currencyPairs = $this->currencyPairsQueryService->getPairList();
         foreach ($currencyPairs as $currencyPair) {
-            if ($currencyPair->baseCurrencyCode === $currencyFrom && $currencyPair->secondCurrencyCode === $currencyTo) {
+            if ($currencyPair->baseCurrency->symbol === $currencyFrom && $currencyPair->secondCurrency->symbol === $currencyTo) {
                 $rate = $currencyPair->rate;
-            } elseif ($currencyPair->baseCurrencyCode === $currencyTo && $currencyPair->secondCurrencyCode === $currencyFrom) {
+                $secondCurrency = $currencyPair->secondCurrency;
+            } elseif ($currencyPair->baseCurrency->symbol === $currencyTo && $currencyPair->secondCurrency->symbol === $currencyFrom) {
                 $rate = 1 / $currencyPair->rate;
-            } else{
+                $secondCurrency = $currencyPair->baseCurrency;
+            } else {
                 continue;
             }
             $convertedAmount = $amount * $rate;
