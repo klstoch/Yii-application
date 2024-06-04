@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\services\CurrencyConversation\CurrencyConversationService;
 use backend\services\CurrencyPairList\CurrencyPairListQueryServiceInterface;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\VerbFilter;
@@ -21,6 +22,7 @@ class RatesController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'list' => ['get'],
+                    'convert' => ['post'],
                 ],
             ],
         ];
@@ -33,6 +35,24 @@ class RatesController extends Controller
                 'class' => ErrorAction::class,
             ],
         ];
+    }
+
+    public function actionConvert(CurrencyConversationService $currencyConversationService): Response
+    {
+        $request = \Yii::$app->request;
+
+        $currencyFrom = $request->get('currency_from');
+        $currencyTo = $request->get('currency_to');
+        $value = (float) $request->get('value');
+        $result = $currencyConversationService->convert($currencyFrom, $currencyTo, $value,);
+
+        return $this->asJson([
+            'currency_from' => $currencyFrom,
+            'currency_to' => $currencyTo,
+            'value' => $value,
+            'converted_value' => $result->convertedAmount,
+            'rate' => $result->rate,
+        ]);
     }
 
     public function actionList(CurrencyPairListQueryServiceInterface $currencyPairListQueryService): Response
