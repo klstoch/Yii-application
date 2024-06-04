@@ -16,6 +16,7 @@ use yii\web\IdentityInterface;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $verification_token
+ * @property string $access_token
  * @property string $email
  * @property string $auth_key
  * @property integer $status
@@ -70,9 +71,9 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public static function findIdentityByAccessToken($token, $type = null): User|IdentityInterface|null
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::findOne(['access_token' => $token]);
     }
 
     /**
