@@ -1,0 +1,10 @@
+SELECT u.id, CONCAT(u.first_name, ' ', u.last_name) AS name, b.author, GROUP_CONCAT(b.name SEPARATOR ', ') AS books
+FROM users u
+         JOIN user_books ub ON u.id = ub.user_id
+         JOIN books b ON b.id = ub.book_id
+WHERE
+    u.birthday >= NOW() - INTERVAL 17 YEAR
+AND u.birthday <= NOW() - INTERVAL 7 YEAR
+AND ub.return_date - ub.get_date <= 14
+GROUP BY u.id, u.first_name, u.last_name, b.author
+HAVING COUNT(DISTINCT b.id) = 2;
