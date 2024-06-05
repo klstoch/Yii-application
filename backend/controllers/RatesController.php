@@ -2,9 +2,9 @@
 
 namespace backend\controllers;
 
+use backend\infrastructure\Authentication\HttpBearerAuth;
 use backend\services\CurrencyConversation\CurrencyConversationService;
 use backend\services\CurrencyPairList\CurrencyPairListQueryServiceInterface;
-use yii\filters\auth\HttpBearerAuth;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\ErrorAction;
