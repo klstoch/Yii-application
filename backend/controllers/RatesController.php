@@ -12,6 +12,9 @@ use yii\web\Response;
 
 class RatesController extends Controller
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function behaviors(): array
     {
         return [
@@ -28,6 +31,9 @@ class RatesController extends Controller
         ];
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function actions(): array
     {
         return [
@@ -44,7 +50,7 @@ class RatesController extends Controller
         $currencyFrom = $request->get('currency_from');
         $currencyTo = $request->get('currency_to');
         $value = (float) $request->get('value');
-        $result = $currencyConversationService->convert($currencyFrom, $currencyTo, $value,);
+        $result = $currencyConversationService->convert($currencyFrom, $currencyTo, $value);
 
         return $this->asJson([
             'currency_from' => $currencyFrom,

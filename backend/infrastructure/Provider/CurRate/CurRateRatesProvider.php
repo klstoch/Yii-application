@@ -15,6 +15,9 @@ final readonly class CurRateRatesProvider
 
     private string $apiUrl;
 
+    /**
+     * @param array<string> $currencyPairCodes
+     */
     public function __construct(array $currencyPairCodes, string $apiKey)
     {
         $this->apiUrl = sprintf(
