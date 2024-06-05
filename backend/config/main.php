@@ -61,7 +61,7 @@ return [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-                'api/v1/<action:\w+>' => 'rates/<action>',
+                'api/v1/<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
     ],
