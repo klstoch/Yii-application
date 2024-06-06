@@ -6,6 +6,7 @@ use backend\infrastructure\Provider\CoinCap\CoinCapRatesProviderToCurrencyPairLi
 use backend\infrastructure\Provider\CurRate\CurRateRatesProvider;
 use backend\infrastructure\Provider\CurRate\CurRateRatesProviderToCurrencyPairListQueryServiceInterfaceAdapter;
 use backend\services\CurrencyConversation\CurrencyConversationService;
+use backend\services\CurrencyPairList\CurrencyListFilter;
 use backend\services\CurrencyPairList\CurrencyPairCachingDecorator;
 use backend\services\CurrencyPairList\CurrencyPairListQueryServiceInterface;
 use backend\services\CurrencyPairList\CurrencyPairPricingDecorator;
@@ -39,6 +40,7 @@ return [
             Yii::$app->params['providers']['CurRate']['currencyPairCodes'],
             Yii::$app->params['providers']['CurRate']['apiKey'],
         ),
+        CurrencyListFilter::class => CurrencyListFilter::class,
     ],
     'singletons' => [
     ],

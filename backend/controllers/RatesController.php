@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\infrastructure\Authentication\HttpBearerAuth;
 use backend\services\CurrencyConversation\CurrencyConversationService;
+use backend\services\CurrencyPairList\CurrencyListFilter;
 use backend\services\CurrencyPairList\CurrencyPairListQueryServiceInterface;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -47,9 +48,9 @@ class RatesController extends Controller
     {
         $request = \Yii::$app->request;
 
-        $currencyFrom = $request->get('currency_from');
-        $currencyTo = $request->get('currency_to');
-        $value = (float) $request->get('value');
+        $currencyFrom = $request->post('currency_from');
+        $currencyTo = $request->post('currency_to');
+        $value = (float)$request->post('value');
         $result = $currencyConversationService->convert($currencyFrom, $currencyTo, $value);
 
         return $this->asJson([
@@ -61,15 +62,30 @@ class RatesController extends Controller
         ]);
     }
 
-    public function actionList(CurrencyPairListQueryServiceInterface $currencyPairListQueryService): Response
-    {
-        $pairList = $currencyPairListQueryService->getPairList();
+    public function actionList(
+        CurrencyPairListQueryServiceInterface $currencyPairListQueryService,
+        CurrencyListFilter $currencyListFilter,
+    ): Response {
+        $request = \Yii::$app->request;
+
+        $selectedSecondCurrency = $request->get('selected_second_Currency', []);
+        if (!is_array($selectedSecondCurrency)) {
+            $selectedSecondCurrency = array_filter(explode(',', $selectedSecondCurrency));
+        }
+
+        $pairList = $currencyListFilter->filterBySelectedCurrencies(
+            $currencyPairListQueryService->getPairList(),
+            $selectedSecondCurrency,
+        );
+
+        usort($pairList, function($a, $b) {
+            return $a->rate <=> $b->rate;
+        });
 
         $result = [];
         foreach ($pairList as $currencyPair) {
             $result[$currencyPair->secondCurrency->symbol] = $currencyPair->rate;
         }
-        ksort($result);
 
         return $this->asJson($result);
     }
