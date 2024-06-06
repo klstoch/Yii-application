@@ -20,6 +20,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'enableCsrfValidation' => false,
         ],
         'response' => [
             'class' => Response::class,
