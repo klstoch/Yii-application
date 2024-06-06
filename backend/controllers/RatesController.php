@@ -68,7 +68,7 @@ class RatesController extends Controller
     ): Response {
         $request = \Yii::$app->request;
 
-        $selectedSecondCurrency = $request->get('selected_second_Currency', []);
+        $selectedSecondCurrency = $request->get('currency_filter', []);
         if (!is_array($selectedSecondCurrency)) {
             $selectedSecondCurrency = array_filter(explode(',', $selectedSecondCurrency));
         }

@@ -1,60 +1,31 @@
-<p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
-    </a>
-    <h1 align="center">Yii 2 Advanced Project Template</h1>
-    <br>
-</p>
+## Задание 1
+Для удобства создал миграцию `m240605_123731_mysql_query_task1`
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](https://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
+Запрос выборки находится в файле `MySQLQueryBooks`
 
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
+## Задание 2
+Для развертывания и тестирования в командной строке последовательно необходимо ввести:
 
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
-
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
-
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![build](https://github.com/yiisoft/yii2-app-advanced/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-app-advanced/actions?query=workflow%3Abuild)
-
-DIRECTORY STRUCTURE
--------------------
-
+```bash
+docker compose up -d # запустить контейнера
 ```
-common
-    config/              contains shared configurations
-    mail/                contains view files for e-mails
-    models/              contains model classes used in both backend and frontend
-    tests/               contains tests for common classes    
-console
-    config/              contains console configurations
-    controllers/         contains console controllers (commands)
-    migrations/          contains database migrations
-    models/              contains console-specific model classes
-    runtime/             contains files generated during runtime
-backend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains backend configurations
-    controllers/         contains Web controller classes
-    models/              contains backend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for backend application    
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-frontend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains frontend configurations
-    controllers/         contains Web controller classes
-    models/              contains frontend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for frontend application
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-    widgets/             contains frontend widgets
-vendor/                  contains dependent 3rd-party packages
-environments/            contains environment-based overrides
+```bash
+docker exec -it yii-application-backend-1 bash # команда для входа внутрь контейнера
 ```
+```bash
+./yii migrate # выполнить миграции
+```
+Запрос для получения списка валютных пар (вместе с фиксированным токеном)
+```bash
+curl -X GET http://localhost:21080/api/v1/rates/list -H "Authorization: Bearer rZkfr8iX2hkcust9lV5x2owoKHs7a3ESuPkaq0ERZ8VOhnqlicC4fKaR2bANcHtb"
+```
+Запрос для получения списка желаемых валют. При фильтрации нескольких валют, необходимо указать через запятую соответсвующие символы валют.
+```bash
+curl -X GET http://localhost:21080/api/v1/rates/list?currency_filter= -H "Authorization: Bearer rZkfr8iX2hkcust9lV5x2owoKHs7a3ESuPkaq0ERZ8VOhnqlicC4fKaR2bANcHtb"
+```
+Запрос на обмен валют (вместе с фиксированным токеном).
+```bash
+curl -X POST http://localhost:21080/api/v1/rates/convert -d "currency_from=USD&currency_to=BTC&value=1" -H "Authorization: Bearer rZkfr8iX2hkcust9lV5x2owoKHs7a3ESuPkaq0ERZ8VOhnqlicC4fKaR2bANcHtb"
+```
+
+Yii Readme is at [README.md](YII-README.md).
